@@ -6,10 +6,10 @@ import java.awt.Toolkit;
 import java.net.URL;
 
 
-public class JBackground extends JObject{
+public class JGBackground extends JGObject{
     
     
-    public JBackground(int drawPriority, double x, double y, double bx, double by,boolean collideAble) {
+    public JGBackground(int drawPriority, double x, double y, double bx, double by,boolean collideAble) {
         
         super(drawPriority, x, y, bx ,by,collideAble);
 

@@ -3,9 +3,9 @@ package JGame;
 import java.awt.Toolkit;
 import java.net.URL;
 
-public class JEnemy extends JImageObject {
+public class JGEnemy extends JGImageObject {
 
-    public JEnemy(int drawPriority, double x, double y, double bx, double by, boolean collideAble) {
+    public JGEnemy(int drawPriority, double x, double y, double bx, double by, boolean collideAble) {
         super(drawPriority, x, y, bx, by, collideAble);
 
         URL url = getClass().getResource("ressources/Enemy.jpg");

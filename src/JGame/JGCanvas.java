@@ -11,9 +11,9 @@ import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class JCanvas extends JPanel {
+public class JGCanvas extends JPanel {
 
-    public JCanvas() {
+    public JGCanvas() {
         setOpaque(true);
         setVisible(true);
 
@@ -26,6 +26,6 @@ public class JCanvas extends JPanel {
 
         g.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        JDrawer.drawGame(this.getWidth(), this.getHeight(), g);        
+        JGDrawer.drawGame(this.getWidth(), this.getHeight(), g);        
     }
 }

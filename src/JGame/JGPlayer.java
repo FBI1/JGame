@@ -9,9 +9,9 @@ import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class JPlayer extends JImageObject {
+public class JGPlayer extends JGImageObject {
 
-    public JPlayer(int drawPriority, double x, double y, double bx, double by) {
+    public JGPlayer(int drawPriority, double x, double y, double bx, double by) {
         super(drawPriority, x, y, bx, by, false);
 
         URL url = getClass().getResource("ressources/Player.jpg");

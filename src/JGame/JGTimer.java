@@ -2,11 +2,11 @@ package JGame;
 
 import java.util.TimerTask;
 
-public class JTimer extends TimerTask {
+public class JGTimer extends TimerTask {
 
     @Override
     public void run() {
-        JManager.computeGame();
+        JGManager.computeGame();
         JGame.drawGame();        
     }
 }

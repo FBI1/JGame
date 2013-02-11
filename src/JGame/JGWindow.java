@@ -8,17 +8,17 @@ import javax.swing.JLabel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class JWindow {
+public class JGWindow {
 
     private JFrame Frame;
-    private static JCanvas canvas;
+    private static JGCanvas canvas;
 
-    public JWindow(String Name) {
+    public JGWindow(String Name) {
 
         Frame = new JFrame(Name);
 
         
-        canvas = new JCanvas();
+        canvas = new JGCanvas();
 
         Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -26,8 +26,8 @@ public class JWindow {
         Frame.setSize(960, 540);
         Frame.setVisible(true);
 
-        Frame.addKeyListener(new JActionListener());
-        Frame.addMouseListener(new JMouseAdapter());
+        Frame.addKeyListener(new JGActionListener());
+        Frame.addMouseListener(new JGMouseAdapter());
 
     }
 

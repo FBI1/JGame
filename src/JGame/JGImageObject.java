@@ -5,11 +5,11 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 
-public class JImageObject extends JObject {
+public class JGImageObject extends JGObject {
 
     private Image image;
 
-    public JImageObject(int drawPriority, double x, double y, double bx, double by, boolean collideAble) {
+    public JGImageObject(int drawPriority, double x, double y, double bx, double by, boolean collideAble) {
 
         super(drawPriority, x, y, bx, by, collideAble);
 

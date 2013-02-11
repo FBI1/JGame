@@ -3,12 +3,12 @@ package JGame;
 import java.awt.Graphics;
 import java.util.Iterator;
 
-public class JDrawer {
+public class JGDrawer {
     
     public static void drawGame(int width,int height,Graphics g){      
-        Iterator<JObject> iter = JManager.getObjects().iterator();
+        Iterator<JGObject> iter = JGManager.getObjects().iterator();
         while (iter.hasNext()) {
-            JObject obj = iter.next();
+            JGObject obj = iter.next();
             obj.drawObject(g, width, height);
         }
     }

@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class JManager {
+public class JGManager {
 
-    private static ArrayList<JObject> objects;
-    private static JPlayer player;
-    private static JEnemy enemy;
-    private static JDebugObject debugObject;
-    private static JBackground background;
+    private static ArrayList<JGObject> objects;
+    private static JGPlayer player;
+    private static JGEnemy enemy;
+    private static JGDebugObject debugObject;
+    private static JGBackground background;
     public static boolean lost;
     public static boolean stop;
     public static boolean started;
@@ -24,18 +24,18 @@ public class JManager {
     private static int pressedKeyCode, releasedKeyCode;
 
     static {
-        objects = new ArrayList<JObject>();
+        objects = new ArrayList<JGObject>();
 
-        player = new JPlayer(100, 200, 200, 0, 0);
+        player = new JGPlayer(100, 200, 200, 0, 0);
         addObject(player);
 
-        enemy = new JEnemy(99, 100, 100, 0, 0,true);
+        enemy = new JGEnemy(99, 100, 100, 0, 0,true);
         addObject(enemy);
 
-        debugObject = new JDebugObject(101, 0, 0, 0, 0,false);
+        debugObject = new JGDebugObject(101, 0, 0, 0, 0,false);
         addObject(debugObject);
 
-        background = new JBackground(-100, 0, 0, 0, 0,false);
+        background = new JGBackground(-100, 0, 0, 0, 0,false);
         addObject(background);       
     }
 
@@ -47,9 +47,9 @@ public class JManager {
         player.setBx(playerBx);
         player.setBy(playerBy);
 
-        Iterator<JObject> iter = objects.iterator();
+        Iterator<JGObject> iter = objects.iterator();
         while (iter.hasNext()) {
-            JObject obj = iter.next();
+            JGObject obj = iter.next();
             obj.computeObject();
             if(obj.getCollideAble() == true && collided(obj) && obj.getHeight()>0 && obj.getWidth()>0){
                 removeObject(obj);
@@ -59,13 +59,13 @@ public class JManager {
         }
     }
 
-    private static boolean collided(JObject obj) {
+    private static boolean collided(JGObject obj) {
         Rectangle r1 = new Rectangle((int) player.getX(), (int) player.getY(), player.getWidth(), player.getHeight());
         Rectangle r2 = new Rectangle((int) obj.getX(), (int) obj.getY(), obj.getWidth(), obj.getHeight());
         return r1.intersects(r2);
     }
 
-    private static void limitObjectPosition(JObject obj, double maxX, double maxY) {
+    private static void limitObjectPosition(JGObject obj, double maxX, double maxY) {
         if (obj.getX() < 0) {
             obj.setX(0);
             obj.setBx(0 - obj.getBx());
@@ -148,20 +148,20 @@ public class JManager {
     public static void stop() {
     }
 
-    public static ArrayList<JObject> getObjects() {
+    public static ArrayList<JGObject> getObjects() {
         return objects;
     }
 
-    public static JPlayer getPlayer() {
+    public static JGPlayer getPlayer() {
         return player;
     }
 
-    public static void addObject(JObject obj) {
+    public static void addObject(JGObject obj) {
         objects.add(obj);
         Collections.sort(objects);
     }
 
-    public static void removeObject(JObject obj) {
+    public static void removeObject(JGObject obj) {
         objects.remove(obj);
     }
 }
