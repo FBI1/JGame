@@ -62,7 +62,7 @@ public abstract class JGObject implements Comparable {
     public void setBy(double by) {
         this.by = by;
     }
-    
+       
     public void setCollideAble(boolean collideAble){
         this.collideAble = collideAble;
     }

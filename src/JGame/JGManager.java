@@ -22,6 +22,8 @@ public class JGManager {
     private static double playerBy;
     private static int xClicked, yClicked;
     private static int pressedKeyCode, releasedKeyCode;
+    
+    private static JGButton StartButton;
 
     static {
         objects = new ArrayList<JGObject>();
@@ -37,6 +39,9 @@ public class JGManager {
 
         background = new JGBackground(-100, 0, 0, 0, 0,false);
         addObject(background);       
+        
+        StartButton = new JGButton(50,200,100,0,0,100,50,"Start");
+        addObject(StartButton);
     }
 
     public static void computeGame() {
