@@ -8,6 +8,7 @@ import java.net.URL;
 public class JGImageObject extends JGObject {
 
     private Image image;
+    private boolean clickable;
 
     public JGImageObject(int drawPriority, double x, double y, double bx, double by, boolean collideAble) {
         super(drawPriority, x, y, bx, by, collideAble);
@@ -15,7 +16,23 @@ public class JGImageObject extends JGObject {
         URL url = getClass().getResource("ressources/Object.jpg");
         image = Toolkit.getDefaultToolkit().getImage(url);
     }
-
+    
+    public boolean clicked() {
+        if(getClickable() == true && JGManager.xClicked >= getX() && JGManager.xClicked <= getX()+getImage().getWidth(null) && JGManager.yClicked >= getY() && JGManager.yClicked <= getY()+getImage().getHeight(null)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public void setClickable(boolean clickable){
+        this.clickable = clickable;
+    }
+    
+    public boolean getClickable(){
+        return clickable;
+    }
     public int getHeight() {
         return image.getHeight(null);
     }

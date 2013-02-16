@@ -1,7 +1,6 @@
 package JGame;
 
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,8 +26,6 @@ public class JGWindow {
         Frame.setVisible(true);
 
         Frame.addKeyListener(new JGActionListener());
-        Frame.addMouseListener(new JGMouseAdapter());
-
     }
 
     public void repaint() {

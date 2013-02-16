@@ -20,7 +20,7 @@ public class JGManager {
     public static boolean started;
     private static double playerBx;
     private static double playerBy;
-    private static int xClicked, yClicked;
+    public static int xClicked, yClicked;
     private static int pressedKeyCode, releasedKeyCode;
     
     private static JGButton StartButton;
@@ -52,6 +52,9 @@ public class JGManager {
         player.setBx(playerBx);
         player.setBy(playerBy);
 
+        if(StartButton.clicked()== true){
+            removeObject(StartButton);
+        }
         Iterator<JGObject> iter = objects.iterator();
         while (iter.hasNext()) {
             JGObject obj = iter.next();

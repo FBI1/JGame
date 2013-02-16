@@ -31,6 +31,7 @@ public class JGButton extends JGImageObject {
 
         URL url = getClass().getResource("ressources/Button.jpg");
         setImage(Toolkit.getDefaultToolkit().getImage(url).getScaledInstance(width, height, 0));
+        setClickable(true);
     }
 
     public void setText() {

@@ -16,6 +16,7 @@ public class JGCanvas extends JPanel {
     public JGCanvas() {
         setOpaque(true);
         setVisible(true);
+        addMouseListener(new JGMouseAdapter());
 
     }
 
