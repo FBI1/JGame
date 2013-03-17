@@ -60,8 +60,8 @@ public class JGManager {
             JGObject obj = iter.next();
             obj.computeObject();
             if(obj.getCollideAble() == true && collided(obj) && obj.getHeight()>0 && obj.getWidth()>0){
-                removeObject(obj);
-                removeObject(player);
+                player.setX(player.getX()-player.getBx()*3);
+                player.setY(player.getY()-player.getBy()*3);
             }
             limitObjectPosition(obj, maxX, maxY);
         }
