@@ -16,13 +16,12 @@ public class JGManager {
     private static JGDebugObject debugObject;
     private static JGBackground background;
     public static boolean lost;
-    public static boolean stop;
+    public static boolean stop = true;
     public static boolean started;
     private static double playerBx;
     private static double playerBy;
     public static int xClicked, yClicked;
     private static int pressedKeyCode, releasedKeyCode;
-    
     private static JGButton StartButton;
 
     static {
@@ -31,39 +30,42 @@ public class JGManager {
         player = new JGPlayer(100, 200, 200, 0, 0);
         addObject(player);
 
-        enemy = new JGEnemy(99, 100, 100, 0, 0,true);
+        enemy = new JGEnemy(99, 100, 100, 0, 0, true);
         addObject(enemy);
 
-        debugObject = new JGDebugObject(101, 0, 0, 0, 0,false);
+        debugObject = new JGDebugObject(101, 0, 0, 0, 0, false);
         addObject(debugObject);
 
-        background = new JGBackground(-100, 0, 0, 0, 0,false);
-        addObject(background);       
-        
-        StartButton = new JGButton(50,200,100,0,0,100,50,"Start");
+        background = new JGBackground(-100, 0, 0, 0, 0, false);
+        addObject(background);
+
+        StartButton = new JGButton(50, JGWindow.getWidth()/2 - 50, JGWindow.getHeight()/2 - 25, 0, 0, 100, 50, "Start");
         addObject(StartButton);
     }
 
     public static void computeGame() {
-        Dimension windowDim = JGame.getWindow().getSize();
-        int maxX = windowDim.width;
-        int maxY = windowDim.height;
-        
-        player.setBx(playerBx);
-        player.setBy(playerBy);
-
-        if(StartButton.clicked()== true){
+        if (StartButton.clicked() == true) {
             removeObject(StartButton);
+            stop = false;
         }
-        Iterator<JGObject> iter = objects.iterator();
-        while (iter.hasNext()) {
-            JGObject obj = iter.next();
-            obj.computeObject();
-            if(obj.getCollideAble() == true && collided(obj) && obj.getHeight()>0 && obj.getWidth()>0){
-                player.setX(player.getX()-player.getBx()*3);
-                player.setY(player.getY()-player.getBy()*3);
+        if (stop == false) {
+            Dimension windowDim = JGame.getWindow().getSize();
+            int maxX = windowDim.width;
+            int maxY = windowDim.height;
+
+            player.setBx(playerBx);
+            player.setBy(playerBy);
+
+            Iterator<JGObject> iter = objects.iterator();
+            while (iter.hasNext()) {
+                JGObject obj = iter.next();
+                obj.computeObject();
+                if (obj.getCollideAble() == true && collided(obj) && obj.getHeight() > 0 && obj.getWidth() > 0) {
+                    player.setX(player.getX() - player.getBx() * 3);
+                    player.setY(player.getY() - player.getBy() * 3);
+                }
+                limitObjectPosition(obj, maxX, maxY);
             }
-            limitObjectPosition(obj, maxX, maxY);
         }
     }
 
@@ -106,20 +108,24 @@ public class JGManager {
         System.out.println("pressedKeyCode: " + pressedKeyCode);
         switch (pressedKeyCode) {
             case 87: //W
-                if(playerBy > -2)
-                playerBy -= 2;
+                if (playerBy > -2) {
+                    playerBy -= 2;
+                }
                 break;
             case 83: //A
-                if(playerBy < 2)
-                playerBy += 2;
+                if (playerBy < 2) {
+                    playerBy += 2;
+                }
                 break;
             case 68: //D
-                if(playerBx < 2)
-                playerBx += 2;
+                if (playerBx < 2) {
+                    playerBx += 2;
+                }
                 break;
             case 65: //A
-                if(playerBx > -2)
-                playerBx -= 2;
+                if (playerBx > -2) {
+                    playerBx -= 2;
+                }
                 break;
             case 80: //P
                 if (stop == false && lost == false) {
@@ -133,7 +139,7 @@ public class JGManager {
 
     public static void keyReleased(KeyEvent e) {
         releasedKeyCode = e.getKeyCode();
-        System.out.println("releasedKeyCode: " + releasedKeyCode);  
+        System.out.println("releasedKeyCode: " + releasedKeyCode);
         switch (releasedKeyCode) {
             case 87: //W
                 playerBy = 0;
@@ -151,9 +157,11 @@ public class JGManager {
     }
 
     public static void start() {
+        stop = false;
     }
 
     public static void stop() {
+        stop = false;
     }
 
     public static ArrayList<JGObject> getObjects() {
