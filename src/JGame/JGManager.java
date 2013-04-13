@@ -44,7 +44,7 @@ public class JGManager {
     }
 
     public static void computeGame() {
-        if (StartButton.clicked() == true) {
+        if (StartButton.clicked() == true && JGMouseAdapter.mouseButton == 1) {
             removeObject(StartButton);
             stop = false;
         }
@@ -100,7 +100,7 @@ public class JGManager {
     public static void mousePressed(MouseEvent e) {
         xClicked = e.getX();
         yClicked = e.getY();
-        System.out.println("xClicked: " + xClicked + " yClicked: " + yClicked);
+        System.out.println("xClicked: " + xClicked + " yClicked: " + yClicked + " mouseButton: " + JGMouseAdapter.mouseButton);
     }
 
     public static void keyPressed(KeyEvent e) {
