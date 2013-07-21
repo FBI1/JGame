@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class JGManager {
 
@@ -18,8 +20,8 @@ public class JGManager {
     public static boolean lost;
     public static boolean stop = true;
     public static boolean started;
-    private static double playerBx;
-    private static double playerBy;
+    private static double distanceX = 0;
+    private static double distanceY = 0;
     public static int xClicked, yClicked;
     private static int pressedKeyCode, releasedKeyCode;
     private static JGButton StartButton;
@@ -39,11 +41,12 @@ public class JGManager {
         background = new JGBackground(-100, 0, 0, 0, 0, false);
         addObject(background);
 
-        StartButton = new JGButton(50, JGWindow.getWidth()/2 - 50, JGWindow.getHeight()/2 - 25, 0, 0, 100, 50, "Start");
+        StartButton = new JGButton(50, JGWindow.getWidth() / 2 - 50, JGWindow.getHeight() / 2 - 25, 0, 0, 100, 50, "Start");
         addObject(StartButton);
     }
 
     public static void computeGame() {
+        move(player, 2, 2);
         if (StartButton.clicked() == true && JGMouseAdapter.mouseButton == 1) {
             removeObject(StartButton);
             stop = false;
@@ -53,16 +56,14 @@ public class JGManager {
             int maxX = windowDim.width;
             int maxY = windowDim.height;
 
-            player.setBx(playerBx);
-            player.setBy(playerBy);
-
             Iterator<JGObject> iter = objects.iterator();
             while (iter.hasNext()) {
                 JGObject obj = iter.next();
                 obj.computeObject();
-                if (obj.getCollideAble() == true && collided(obj) && obj.getHeight() > 0 && obj.getWidth() > 0) {
-                    player.setX(player.getX() - player.getBx() * 3);
-                    player.setY(player.getY() - player.getBy() * 3);
+                if (obj.getCollideable() == true && collided(obj) == true) {
+                    removeObject(obj);
+                    removeObject(player);
+                    lost = true;
                 }
                 limitObjectPosition(obj, maxX, maxY);
             }
@@ -107,26 +108,6 @@ public class JGManager {
         pressedKeyCode = e.getKeyCode();
         System.out.println("pressedKeyCode: " + pressedKeyCode);
         switch (pressedKeyCode) {
-            case 87: //W
-                if (playerBy > -2) {
-                    playerBy -= 2;
-                }
-                break;
-            case 83: //A
-                if (playerBy < 2) {
-                    playerBy += 2;
-                }
-                break;
-            case 68: //D
-                if (playerBx < 2) {
-                    playerBx += 2;
-                }
-                break;
-            case 65: //A
-                if (playerBx > -2) {
-                    playerBx -= 2;
-                }
-                break;
             case 80: //P
                 if (stop == false && lost == false) {
                     stop();
@@ -141,19 +122,75 @@ public class JGManager {
         releasedKeyCode = e.getKeyCode();
         System.out.println("releasedKeyCode: " + releasedKeyCode);
         switch (releasedKeyCode) {
-            case 87: //W
-                playerBy = 0;
-                break;
-            case 83: //A
-                playerBy = 0;
-                break;
-            case 68: //D
-                playerBx = 0;
-                break;
-            case 65: //A
-                playerBx = 0;
-                break;
         }
+    }
+
+    public static void move(JGImageObject obj, double speedX, double speedY) {
+        double X, Y, targetX, targetY;
+
+        if (JGMouseAdapter.mouseButton == 3) {
+            X = obj.getX();
+            Y = obj.getY();
+
+            targetX = xClicked;
+            targetY = yClicked;
+
+            distanceX = targetX - X;
+            distanceY = targetY - Y;
+            if (distanceX < 0 && distanceY < 0) {
+                if (distanceX < distanceY) {
+                    speedX *= 1;
+                    speedY *= distanceY / distanceX;
+                } else if (distanceY < distanceX) {
+                    speedY *= 1;
+                    speedX *= distanceX / distanceY;
+                }
+            } else if (distanceX > 0 && distanceY > 0) {
+                if (distanceX > distanceY) {
+                    speedX *= 1;
+                    speedY *= distanceY / distanceX;
+                } else if (distanceY > distanceX) {
+                    speedY *= 1;
+                    speedX *= distanceX / distanceY;
+                }
+            } else if (distanceX < 0 && distanceY > 0) {
+                distanceX *= -1;
+                if (distanceX > distanceY) {
+                    speedX *= -1;
+                    speedY *= distanceY / distanceX * -1;
+                } else if (distanceY > distanceX) {
+                    speedY *= 1;
+                    speedX *= distanceX / distanceY * -1;
+                }
+            } else if (distanceX > 0 && distanceY < 0) {
+                distanceY *= -1;
+                if (distanceX > distanceY) {
+                    speedX *= 1;
+                    speedY *= distanceY / distanceX * -1;
+                } else if (distanceY > distanceX) {
+                    speedY *= -1;
+                    speedX *= distanceX / distanceY * -1;
+                }
+            }
+
+            if (distanceX > 3) {
+                obj.setBx(speedX);
+            } else if (distanceX < -3) {
+                obj.setBx(speedX * -1);
+            } else {
+                obj.setBx(0);
+            }
+            if (distanceY > 3) {
+                obj.setBy(speedY);
+            } else if (distanceY < -3) {
+                obj.setBy(speedY * -1);
+            } else {
+                obj.setBy(0);
+            }
+        }
+    }
+
+    public static void moving() {
     }
 
     public static void start() {

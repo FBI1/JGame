@@ -10,8 +10,8 @@ public class JGImageObject extends JGObject {
     private Image image;
     private boolean clickable;
 
-    public JGImageObject(int drawPriority, double x, double y, double bx, double by, boolean collideAble) {
-        super(drawPriority, x, y, bx, by, collideAble);
+    public JGImageObject(int drawPriority, double x, double y, double bx, double by, boolean collideable) {
+        super(drawPriority, x, y, bx, by, collideable);
 
         URL url = getClass().getResource("ressources/Object.jpg");
         image = Toolkit.getDefaultToolkit().getImage(url);

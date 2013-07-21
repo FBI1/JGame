@@ -7,20 +7,20 @@ import java.net.URL;
 
 public abstract class JGObject implements Comparable {
 
-    private boolean collideAble;
+    private boolean collideable;
     private double x;
     private double y;
     private double bx; // "pixel pro tick"
     private double by;
     private int drawPriority;
 
-    public JGObject(int drawPriority, double x, double y, double bx, double by, boolean collideAble) {
+    public JGObject(int drawPriority, double x, double y, double bx, double by, boolean collideable) {
         this.drawPriority = drawPriority;
         this.x = x;
         this.y = y;
         this.bx = bx;
         this.by = by;
-        this.collideAble = collideAble;
+        this.collideable = collideable;
     }
 
     public int getHeight() {
@@ -63,11 +63,11 @@ public abstract class JGObject implements Comparable {
         this.by = by;
     }
        
-    public void setCollideAble(boolean collideAble){
-        this.collideAble = collideAble;
+    public void setCollideable(boolean collideable){
+        this.collideable = collideable;
     }
-    public boolean getCollideAble(){
-        return this.collideAble;
+    public boolean getCollideable(){
+        return this.collideable;
     }
 
     public void addBy(double by) {
