@@ -23,6 +23,12 @@ public abstract class JGObject implements Comparable {
         this.collideable = collideable;
     }
 
+    public double getDistance(double x, double y) {
+        double distanceX = this.x - x;
+        double distanceY = this.y - y;
+        return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    }
+
     public int getHeight() {
         return 0;
     }
@@ -58,15 +64,16 @@ public abstract class JGObject implements Comparable {
     public double getBy() {
         return by;
     }
-    
+
     public void setBy(double by) {
         this.by = by;
     }
-       
-    public void setCollideable(boolean collideable){
+
+    public void setCollideable(boolean collideable) {
         this.collideable = collideable;
     }
-    public boolean getCollideable(){
+
+    public boolean getCollideable() {
         return this.collideable;
     }
 
