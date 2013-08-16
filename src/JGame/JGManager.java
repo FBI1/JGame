@@ -7,8 +7,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class JGManager {
 
@@ -24,9 +22,13 @@ public class JGManager {
     public static boolean started;
     private static double distanceX = 0;
     private static double distanceY = 0;
-    public static int xClicked, yClicked;
+    public static int xClickedLeft, yClickedLeft, xClickedRight, yClickedRight;
     private static int pressedKeyCode, releasedKeyCode;
     private static JGButton StartButton;
+    private static JGMovement movementPlayer = new JGMovement();
+    private static JGMovement movementFireball = new JGMovement();
+    private static boolean secondOver;
+    private static int seconds;
 
     static {
         objects = new ArrayList<JGObject>();
@@ -37,7 +39,7 @@ public class JGManager {
         enemy = new JGEnemy(99, 100, 100, 0, 0, true);
         addObject(enemy);
 
-        fireball = new JGFireball(101, 300, 300, 0, 0);
+        fireball = new JGFireball(101, player.getX() + 100, player.getY() + 100, 0, 0, 1, 15, 10, 5);
         addObject(fireball);
 
         debugObject = new JGDebugObject(101, 0, 0, 0, 0, false);
@@ -51,10 +53,10 @@ public class JGManager {
     }
 
     public static void computeGame() {
-        move(player, 3, 3);
-        move(fireball, 15, 1);
 
-        if (StartButton.clicked() == true && JGMouseAdapter.mouseButton == 1) {
+        if (StartButton.clickedLeft() == true && started == false) {
+            xClickedLeft = 0;
+            yClickedLeft = 0;
             removeObject(StartButton);
             stop = false;
             started = true;
@@ -68,19 +70,22 @@ public class JGManager {
             while (iter.hasNext() && stop == false) {
                 JGObject obj = iter.next();
                 obj.computeObject();
-                limitObjectPosition(obj, maxX, maxY);
+                limitObjectPosition(obj, maxX + 5 - obj.getWidth(), maxY + 5 - obj.getHeight());
                 if (obj.getCollideable() == true && collided(obj, player) == true) {
                     removeObject(obj);
                     removeObject(player);
                     lost = true;
                     stop = true;
                 } else if (obj.getCollideable() == true && collided(obj, fireball) == true) {
-                    removeObject(obj);
-                    won = true;
-                    stop = true;
+                    obj.setHP(obj.getHP() - fireball.getDamage());
+                    fireball.activateCooldown();
                 }
             }
         }
+        movementPlayer.move(player, 3, xClickedRight, yClickedRight, player.getMoveable());
+
+        movementFireball.move(fireball, 15, xClickedLeft, yClickedLeft, fireball.getMoveable());
+        fireball.cooldown();
     }
 
     private static boolean collided(JGObject obj1, JGObject obj2) {
@@ -112,9 +117,19 @@ public class JGManager {
     }
 
     public static void mousePressed(MouseEvent e) {
-        xClicked = e.getX();
-        yClicked = e.getY();
-        System.out.println("xClicked: " + xClicked + " yClicked: " + yClicked + " mouseButton: " + JGMouseAdapter.mouseButton);
+        if (JGMouseAdapter.mouseButton == 1) {
+            xClickedLeft = e.getX();
+            yClickedLeft = e.getY();
+            System.out.println("xClickedLeft: " + xClickedLeft + " yClickedLeft: " + yClickedLeft + " mouseButton: " + JGMouseAdapter.mouseButton);
+        } else if (JGMouseAdapter.mouseButton == 3) {
+            xClickedRight = e.getX();
+            yClickedRight = e.getY();
+            System.out.println("xClickedRight: " + xClickedRight + " yClickedRight: " + yClickedRight + " mouseButton: " + JGMouseAdapter.mouseButton);
+        }
+    }
+
+    public static void mouseReleased(MouseEvent e) {
+        System.out.println("Mouse released");
     }
 
     public static void keyPressed(KeyEvent e) {
@@ -141,43 +156,6 @@ public class JGManager {
         }
     }
 
-    public static void move(JGImageObject obj, double speed, int mouseButton) {
-
-        double distance = obj.getDistance(xClicked, yClicked);
-        double time = distance / speed;
-        double distanceX, distanceY, speedX, speedY;
-
-        distanceX = obj.getX() - xClicked;
-        if (distanceX < 0) {
-            distanceX = -distanceX;
-        }
-
-        distanceY = obj.getY() - yClicked;
-        if (distanceY < 0) {
-            distanceY = -distanceY;
-        }
-
-        if (JGMouseAdapter.mouseButton == mouseButton && obj.getDistance(xClicked, yClicked) > 8) {
-
-            if (obj.getX() < xClicked) {
-                speedX = distanceX / time;
-            } else {
-                speedX = -distanceX / time;
-            }
-            if (obj.getY() < yClicked) {
-                speedY = distanceY / time;
-            } else {
-                speedY = -distanceY / time;
-            }
-
-            obj.setBx(speedX);
-            obj.setBy(speedY);
-        } else {
-            obj.setBx(0);
-            obj.setBy(0);
-        }
-    }
-
     public static void start() {
         stop = false;
         won = false;
@@ -194,7 +172,7 @@ public class JGManager {
         enemy = new JGEnemy(99, 100, 100, 0, 0, true);
         addObject(enemy);
 
-        fireball = new JGFireball(101, 300, 300, 0, 0);
+        fireball = new JGFireball(101, player.getX() + 100, player.getY() + 100, 0, 0, 1, 15, 10, 5);
         addObject(fireball);
 
         debugObject = new JGDebugObject(101, 0, 0, 0, 0, false);
@@ -221,6 +199,10 @@ public class JGManager {
 
     public static JGPlayer getPlayer() {
         return player;
+    }
+
+    public static JGEnemy getEnemy() {
+        return enemy;
     }
 
     public static void addObject(JGObject obj) {

@@ -7,6 +7,6 @@ public class JGTimer extends TimerTask {
     @Override
     public void run() {
         JGManager.computeGame();
-        JGame.drawGame();        
+        JGame.drawGame();
     }
 }

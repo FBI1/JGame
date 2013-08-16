@@ -12,4 +12,8 @@ public class JGMouseAdapter extends MouseAdapter {
         JGManager.mousePressed(e);
 
     }
+    
+    public void mouseReleased(MouseEvent e){
+        JGManager.mouseReleased(e);
+    }
 }

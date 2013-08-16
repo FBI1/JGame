@@ -14,8 +14,10 @@ public class JGDebugObject extends JGObject {
 
     public void drawObject(Graphics g, int width, int height) {
         g.setColor(Color.black);
-        g.drawString("Player bx: " + JGManager.getPlayer().getBx(), width - 200, height - 110);
-        g.drawString("Player by: " + JGManager.getPlayer().getBy(), width - 200, height - 90);
+        g.drawString("Enemy hp: " + JGManager.getEnemy().getHP(), width - 200, height - 150);
+        g.drawString("Player bx: " + JGManager.getPlayer().getBx(), width - 200, height - 130);
+        g.drawString("Player by: " + JGManager.getPlayer().getBy(), width - 200, height - 110);
+        g.drawString("Player hp: " + JGManager.getPlayer().getHP(), width - 200, height - 90);
         g.drawString("Won : " + JGManager.won, width - 200, height - 70);
         g.drawString("Lost  : " + JGManager.lost, width - 200, height - 50);
         g.drawString("Pause     : " + JGManager.stop, width - 200, height - 30);

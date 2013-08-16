@@ -10,9 +10,23 @@ public abstract class JGObject implements Comparable {
     private boolean collideable;
     private double x;
     private double y;
-    private double bx; // "pixel pro tick"
+    private double bx;
     private double by;
+    private double hp;
+    private double speed;
     private int drawPriority;
+    private boolean moveable = false;
+
+    public JGObject(int drawPriority, double x, double y, double bx, double by, double hp, double speed, boolean collideable) {
+        this.drawPriority = drawPriority;
+        this.x = x;
+        this.y = y;
+        this.bx = bx;
+        this.by = by;
+        this.hp = hp;
+        this.speed = speed;
+        this.collideable = collideable;
+    }
 
     public JGObject(int drawPriority, double x, double y, double bx, double by, boolean collideable) {
         this.drawPriority = drawPriority;
@@ -20,6 +34,8 @@ public abstract class JGObject implements Comparable {
         this.y = y;
         this.bx = bx;
         this.by = by;
+        this.hp = 1;
+        this.speed = 0;
         this.collideable = collideable;
     }
 
@@ -67,6 +83,30 @@ public abstract class JGObject implements Comparable {
 
     public void setBy(double by) {
         this.by = by;
+    }
+
+    public void setHP(double hp) {
+        this.hp = hp;
+    }
+
+    public double getHP() {
+        return hp;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setMoveable(boolean moveable) {
+        this.moveable = moveable;
+    }
+
+    public boolean getMoveable() {
+        return moveable;
     }
 
     public void setCollideable(boolean collideable) {
